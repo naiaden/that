@@ -89,11 +89,11 @@ class Annotation_vl(models.Model):
     student_id = models.BigIntegerField()
     is_filled = models.BooleanField(default=False)
     
-    humor_type = models.CharField(max_length=20,null=True, blank=True)
-    distance = models.CharField(max_length=20,null=True, blank=True)
-    source = models.CharField(max_length=20,null=True, blank=True)
-    content_type = models.CharField(max_length=20,null=True, blank=True)
-    attitude = models.CharField(max_length=20,null=True, blank=True)
+    humor_type = models.CharField(max_length=50,null=True, blank=True)
+    distance = models.CharField(max_length=50,null=True, blank=True)
+    source = models.CharField(max_length=50,null=True, blank=True)
+    content_type = models.CharField(max_length=50,null=True, blank=True)
+    attitude = models.CharField(max_length=50,null=True, blank=True)
     
     class Meta:
         unique_together = (("tweet_id", "student_id"),)
@@ -107,11 +107,11 @@ class Annotation_eb(models.Model):
     student_id = models.BigIntegerField()
     is_filled = models.BooleanField(default=False)
     
-    humor_type = models.CharField(max_length=20,null=True, blank=True)
-    distance = models.CharField(max_length=20,null=True, blank=True)
-    source = models.CharField(max_length=20,null=True, blank=True)
-    content_type = models.CharField(max_length=20,null=True, blank=True)
-    fear = models.CharField(max_length=20,null=True, blank=True)
+    humor_type = models.CharField(max_length=50,null=True, blank=True)
+    distance = models.CharField(max_length=50,null=True, blank=True)
+    source = models.CharField(max_length=50,null=True, blank=True)
+    content_type = models.CharField(max_length=50,null=True, blank=True)
+    fear = models.CharField(max_length=50,null=True, blank=True)
     
     class Meta:
         unique_together = (("tweet_id", "student_id"),)

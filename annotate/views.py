@@ -43,8 +43,10 @@ def detail(request, student_id):
         #annotations = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
         if remaining_vl:
             annotation = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
+            a_type = 'vl'
         else:
             annotation = Annotation_eb.objects.filter(student_id=student_id).filter(is_filled=False).first()
+            a_type = 'eb'
         tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_vl.objects.filter(student_id=student_id)])
         
         twannotations[annotation.tweet_id] = {}
@@ -57,6 +59,7 @@ def detail(request, student_id):
     
     return render(request, 'annotation/detail.html', 
                   { 'student': student,
+                'type': a_type,
                 'humor_types': HUMORTYPES,
                 'distance_eb': DISTANCEEB,
                 'distance_vl': DISTANCEVL,
@@ -88,10 +91,16 @@ def addannotation(request, student_id):
             })
     else:
         selected_annotation.humor_type = request.POST['humortype']
-        selected_annotation.distance = request.POST['distanceeb']
+        if request.POST['humortype'] == 'eb':
+            selected_annotation.distance = request.POST['distanceeb']
+        else: #vl
+            selected_annotation.distance = request.POST['distancevl']
         selected_annotation.source = request.POST['source']
         selected_annotation.content_type = request.POST['contenttype']
-        selected_annotation.fear = request.POST['fear']
+        if request.POST['humortype'] == 'eb':
+            selected_annotation.fear = request.POST['fear']
+        else: #vl
+            selected_annotation.fear = request.POST['attitude']
         selected_annotation.is_filled = True
         selected_annotation.save()
         
@@ -102,12 +111,15 @@ def addannotation(request, student_id):
     
     twannotations = {}
     
+    a_type = ''
     if remaining:      
         #annotations = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
         if remaining_vl:
             annotation = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
+            a_type = "vl"
         else:
             annotation = Annotation_eb.objects.filter(student_id=student_id).filter(is_filled=False).first()
+            a_type = "eb"
         tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_vl.objects.filter(student_id=student_id)])
         
         twannotations[annotation.tweet_id] = {}
@@ -120,6 +132,7 @@ def addannotation(request, student_id):
     
     return render(request, 'annotation/detail.html', 
         { 'student': student,
+         'type': a_type,
         'humor_types': HUMORTYPES,
         'distance_eb': DISTANCEEB,
         'distance_vl': DISTANCEVL,

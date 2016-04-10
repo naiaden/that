@@ -7,7 +7,7 @@
 
 
 {% for key, annotation in twannotations.items %}
-	<h2>Tweet</h2>
+	<h2>Tweet over {% if type == 'eb' %}ebola{% else %}vluchtelingen{% endif %}</h2>
 	{{ annotation.tweet.tweet_text }}<br>
 
 	<form action="{% url 'annotate:addannotation' student.student_id %}" method="post">
@@ -19,10 +19,17 @@
 		{% endfor %}
 	  </select>
 	  
+	  {% if type == 'eb' %}
 	  <select name="distanceeb" id="distanceeb{{ key }}">
 		{% for de in distance_eb %}  
 		    <option value="{{ de }}">{{ de }}</option>
 		{% endfor %}
+	  {% else %}
+	  <select name="distancevl" id="distancevl{{ key }}">
+		{% for dv in distance_vl %}  
+		    <option value="{{ dv }}">{{ dv }}</option>
+		{% endfor %}
+	  {% endif %}
 	  </select>
 	  
 	  <select name="source" id="source{{ key }}">
@@ -37,12 +44,20 @@
 		{% endfor %}
 	  </select>
 	  
+	  {% if type == 'eb' %}
 	  <select name="fear" id="fear{{ key }}">
 		{% for f in fear %}  
 		    <option value="{{ f }}">{{ f }}</option>
 		{% endfor %}
+	  {% else %}
+	  <select name="attitude" id="attitude{{ key }}">
+		{% for a in attitude %}  
+		    <option value="{{ a }}">{{ a }}</option>
+		{% endfor %}
+	  {% endif %}
 	  </select>
 	  
+	  <input type="hidden" name="type" value="{{ type }}">
 
 	  <button type="submit" name="submit" value="{{ annotation.annotation.annotation_id }}">Bevestig</button>
 	</form>
@@ -106,7 +121,7 @@
 
 {% endfor %}
 {% else %}
-	Je bent klaar met de tweets over vluchtelingen!
+	Je bent klaar met het annoteren van tweets!
 
 {% endif %}
 
