@@ -1,11 +1,26 @@
+<h1> Annoteren van tweets voor de bachelorkring over humor, Twitter, en crises</h1>
+Om het jullie hopelijk wat makkelijker te maken de tweets te annoteren heb ik een kleine webinterface in elkaar gehackt.
+Per student staat er een aantal te annoteren tweets klaar. Je gaat naar je eigen pagina door hieronder op je studentnummer
+te klikken. Achter elk studentnummer staat het aantal tweets dat geannoteerd is voor ebola (eb) en de vluchtelingencrisis (vl).
+<br><br>
+Je krijgt steeds een tweet per keer te zien, samen met de data zoals we die uit het corpus verkregen hebben (datum, username, etc.).
+Geef met de menuutjes de juiste categoriewaarde aan per categorie (humorsoort, afstand, bron, etc.), en druk op bevestig.
+Nu wordt de annotatie opgeslagen, en krijg je de volgende tweet. Boven in beeld kun je zien hoe ver je al bent. Als je klaar bent krijg
+je dat ook te zien.
+<br><br>
+Als er vragen zijn, mail dan naar l.onrust@let.ru.nl. En oja, wacht niet tot 2 mei; het is namelijk best veel werk!
+
+<h2>Annotaties</h2>
 In totaal zijn er nu {{ nr_annotations }} annotaties. {{ nr_annotations_vl }} voor vluchtelingen, en {{ nr_annotations_eb }} voor ebola.
 In termen van tweets zijn dit er {{ nr_tweets }}, {{ nr_tweets_vl }} en {{ nr_tweets_eb }} respectievelijk.
 
 <br><br>
 
+
+
 {% for student, info in student_info.items %}
 
-	{{ student.student_id }} :: {{ info }}
+	<a href="{{ student.student_id }}/">{{ student.student_id }}</a> :: {{ info }}
 	<br>
 
 {% endfor %}

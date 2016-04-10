@@ -39,6 +39,7 @@ def detail(request, student_id):
     
     twannotations = {}
     
+    a_type = ''
     if remaining:      
         #annotations = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
         if remaining_vl:
