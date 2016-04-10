@@ -1,0 +1,11 @@
+In totaal zijn er nu {{ nr_annotations }} annotaties. {{ nr_annotations_vl }} voor vluchtelingen, en {{ nr_annotations_eb }} voor ebola.
+In termen van tweets zijn dit er {{ nr_tweets }}, {{ nr_tweets_vl }} en {{ nr_tweets_eb }} respectievelijk.
+
+<br><br>
+
+{% for student, info in student_info.items %}
+
+	{{ student.student_id }} :: {{ info }}
+	<br>
+
+{% endfor %}

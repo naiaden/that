@@ -1,0 +1,10 @@
+{% if all_students %}
+	<h3>These are all students</h3>
+	<ul>
+		{% for student in all_students %}
+			student {{ student.student_id }} annotated {{ len(Annotation_vl.objects.filter(student_id__student_id=student.student_id)) }} tweets
+		{% endfor %}
+	</ul>
+{% else %}
+	<h3>There are no tweets</h3>
+{% endif %}

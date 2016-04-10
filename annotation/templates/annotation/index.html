@@ -1,0 +1,10 @@
+{% if all_tweets %}
+	<h3>These are all tweets</h3>
+	<ul>
+		{% for tweet in all_tweets %}
+		<li><a href="{% url 'annotation:detail' tweet.tweet_id %}">{{ tweet.tweet_text }}</a></li>
+		{% endfor %}
+	</ul>
+{% else %}
+	<h3>There are no tweets</h3>
+{% endif %}
