@@ -85,7 +85,7 @@
 	 </tr>
 	 <tr>
 	    <td>reply to user url</td>
-	    <td>{{ annotation.tweet.reply_to_user_url }} </td>
+	    <td><a href="{{ annotation.tweet.reply_to_user_url }}">{{ annotation.tweet.reply_to_user_url }}</a> </td>
 	 </tr>
 	 <tr>
 	    <td>retweet to user id</td>
@@ -93,7 +93,7 @@
 	  </tr>
 	  <tr>
 	    <td>retweet to user url</td>
-	    <td>{{ annotation.tweet.retweet_to_user_url }} </td>
+	    <td><a href="{{ annotation.tweet.retweet_to_user_url }}">{{ annotation.tweet.retweet_to_user_url }}</a> </td>
 	  </tr>
 	  <tr>
 	    <td>user name</td>
@@ -115,6 +115,10 @@
 	    <td>hashtags</td>
 	    <td>{{ annotation.tweet.hashtags }} </td>
 	 </tr>
+         <tr>
+            <td>tweet url</td>
+            <td><a href="{{ annotation.tweet.tweet_url }}">{{ annotation.tweet.tweet_url }}</a></td>
+         </tr>
 	</table> 
 
 (annotatie-id {{ annotation.annotation.annotation_id }})

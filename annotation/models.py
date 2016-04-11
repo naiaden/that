@@ -49,7 +49,7 @@ DISTANCEEB = (  "West-Afrika",
                 "Europa",
                 "Nederland",
                 "Noord-Amerika",
-                "Overig / geen")
+                "Overig - geen")
 
 DISTANCEVL = ( "Nederland",
                "Europa",

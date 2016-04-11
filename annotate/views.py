@@ -38,6 +38,8 @@ def detail(request, student_id):
     remaining = remaining_vl + remaining_eb
     
     twannotations = {}
+
+    print("hoi")
     
     a_type = ''
     if remaining:      
@@ -45,10 +47,11 @@ def detail(request, student_id):
         if remaining_vl:
             annotation = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
             a_type = 'vl'
+            tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_vl.objects.filter(student_id=student_id)])
         else:
             annotation = Annotation_eb.objects.filter(student_id=student_id).filter(is_filled=False).first()
             a_type = 'eb'
-        tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_vl.objects.filter(student_id=student_id)])
+            tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_eb.objects.filter(student_id=student_id)])
         
         twannotations[annotation.tweet_id] = {}
         twannotations[annotation.tweet_id]['annotation'] = annotation
@@ -79,31 +82,48 @@ def detail(request, student_id):
 
 def addannotation(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
-    
-    try:
-        for annotation in Annotation_vl.objects.filter(student_id=student_id):
-            if str(annotation.annotation_id) == str(request.POST['submit']):
-                selected_annotation = annotation
-                break
-    except (KeyError, Annotation_vl.DoesNotExist):
-        return render(request, 'annotate/detail.html', {
-            'student': student,
-            'error_message': "You didn't select a valid annotation",
-            })
-    else:
-        selected_annotation.humor_type = request.POST['humortype']
-        if request.POST['humortype'] == 'eb':
-            selected_annotation.distance = request.POST['distanceeb']
-        else: #vl
+   
+    annotation_type = request.POST['type']
+
+    if annotation_type == 'vl':
+        try:
+            for annotation in Annotation_vl.objects.filter(student_id=student_id):
+                if str(annotation.annotation_id) == str(request.POST['submit']):
+                    selected_annotation = annotation
+                    break
+        except (KeyError, Annotation_vl.DoesNotExist):
+            return render(request, 'annotate/detail.html', {
+                'student': student,
+                'error_message': "You didn't select a valid annotation",
+                })
+        else:
+            selected_annotation.humor_type = request.POST['humortype']
             selected_annotation.distance = request.POST['distancevl']
-        selected_annotation.source = request.POST['source']
-        selected_annotation.content_type = request.POST['contenttype']
-        if request.POST['humortype'] == 'eb':
+            selected_annotation.source = request.POST['source']
+            selected_annotation.content_type = request.POST['contenttype']
+            selected_annotation.attitude = request.POST['attitude']
+            selected_annotation.is_filled = True
+            selected_annotation.save()
+    else: # 'eb'
+        try:
+            for annotation in Annotation_eb.objects.filter(student_id=student_id):
+                if str(annotation.annotation_id) == str(request.POST['submit']):
+                    selected_annotation = annotation
+                    break
+        except (KeyError, Annotation_eb.DoesNotExist):
+            return render(request, 'annotate/detail.html', {
+                'student': student,
+                'error_message': "You didn't select a valid annotation",
+                })
+        else:
+            selected_annotation.humor_type = request.POST['humortype']
+            selected_annotation.distance = request.POST['distanceeb']
+            selected_annotation.source = request.POST['source']
+            selected_annotation.content_type = request.POST['contenttype']
             selected_annotation.fear = request.POST['fear']
-        else: #vl
-            selected_annotation.fear = request.POST['attitude']
-        selected_annotation.is_filled = True
-        selected_annotation.save()
+            selected_annotation.is_filled = True
+            selected_annotation.save()
+
         
     
     remaining_vl = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).count()
@@ -118,10 +138,11 @@ def addannotation(request, student_id):
         if remaining_vl:
             annotation = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()
             a_type = "vl"
+            tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_vl.objects.filter(student_id=student_id)])
         else:
             annotation = Annotation_eb.objects.filter(student_id=student_id).filter(is_filled=False).first()
             a_type = "eb"
-        tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_vl.objects.filter(student_id=student_id)])
+            tweets = Tweet.objects.filter(tweet_id__in=[x.tweet_id for x in Annotation_eb.objects.filter(student_id=student_id)])
         
         twannotations[annotation.tweet_id] = {}
         twannotations[annotation.tweet_id]['annotation'] = annotation
