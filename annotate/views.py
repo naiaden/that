@@ -37,7 +37,7 @@ def annotations(request, student_id):
     annotations_eb = Annotation_eb.objects.all().filter(student_id=student_id)
     a_eb = {}
     for annotation_eb in annotations_eb:
-        tweet = Tweet.objects.all().filter(tweet_id=annotation_eb.tweet_id)
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_eb.tweet_id).first()
         a_eb.tweet_text = tweet.tweet_text
         a_eb.humor_type = annotation_eb.humor_type
         a_eb.distance = annotation_eb.distance
@@ -49,7 +49,7 @@ def annotations(request, student_id):
     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
     a_vl = {}
     for annotation_vl in annotations_vl:
-        tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id)
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id).first()
         a_vl.tweet_text = tweet.tweet_text
         a_vl.humor_type = annotation_vl.humor_type
         a_vl.distance = annotation_vl.distance
