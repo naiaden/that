@@ -5,31 +5,43 @@
     <title>Annotations</title>
 </head>
 <body>
-<h2>Tweets over ebola</h2> :: {{ annotations_eb.size }} <br>
-{{ hoi }}
-{%  for annotation_eb in annotations_eb %}
+<h1>Annotaties</h1>
+Klik op de annotation-id om de annotatie te wijzigen.<br>
+Als je geen categoriewaarden ziet, dan heb je die annotatie nog niet gedaan. Via het normale proces zul je deze vanzelf wel eens tegen komen. Je hoeft ze dus niet een voor een in te vullen hier.
+<h2>Tweets over ebola</h2> <br>
+{%  for annotation_id, annotation_fields in hola1.items %}
+{% if annotation_fields.is_filled %}
+    <a href="e{{ annotation_id }}/">{{ annotation_id }}</a> :: {{ annotation_fields.tweet_id }} ::
+                           {{ annotation_fields.humor_type }} -
+                           {{ annotation_fields.distance }} -
+                           {{ annotation_fields.source }} -
+                           {{ annotation_fields.content_type }} -
+                           {{ annotation_fields.fear }}  <br>
+                           {{ annotation_fields.tweet_text }}
+{% else %}
+    {{ annotation_id }} :: {{ annotation_fields.tweet_id }} <br>
+                           {{ annotation_fields.tweet_text }}
+{% endif %}
 
-    {{ annotation_eb.annotation_id }} :: {{ annotation_eb.tweet_id }} -
-                                         {{ annotation_eb.humor_type }} -
-                                         {{ annotation_eb.distance }} -
-                                         {{ annotation_eb.source }} -
-                                         {{ annotation_eb.content_type }} -
-                                         {{ annotation_eb.fear }} :
-
-    <br>
+    <br><br>
 
 {%  endfor %}
 
 <h2>Tweets over vluchtelingen</h2>
-{%  for annotation_vl in annotations_vl %}
-
-    {{ annotation_vl.annotation_id }} :: {{ annotation_vl.tweet_id }} -
-                                         {{ annotation_vl.humor_type }} -
-                                         {{ annotation_vl.distance }} -
-                                         {{ annotation_vl.source }} -
-                                         {{ annotation_vl.content_type }} -
-                                         {{ annotation_vl.attitude }}
-    <br>
+{%  for annotation_id, annotation_fields in hola2.items %}
+{% if annotation_fields.is_filled %}
+    <a href="e{{ annotation_id }}/">{{ annotation_id }}</a> :: {{ annotation_fields.tweet_id }} ::
+                           {{ annotation_fields.humor_type }} -
+                           {{ annotation_fields.distance }} -
+                           {{ annotation_fields.source }} -
+                           {{ annotation_fields.content_type }} -
+                           {{ annotation_fields.attitude }}  <br>
+                           {{ annotation_fields.tweet_text }}
+{% else %}
+    {{ annotation_id }} :: {{ annotation_fields.tweet_id }} <br>
+                           {{ annotation_fields.tweet_text }}
+{% endif %}
+    <br><br>
 
 {%  endfor %}
 </body>

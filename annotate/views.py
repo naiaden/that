@@ -39,39 +39,130 @@ def annotations(request, student_id):
     for annotation_eb in annotations_eb:
         tweet = Tweet.objects.all().filter(tweet_id=annotation_eb.tweet_id).first()
         a_ebs[annotation_eb.annotation_id] = {}
-        a_ebs[annotation_eb.annotation_id]['tweet_text'] = "hoi@"#tweet.tweet_text
-        a_ebs[annotation_eb.annotation_id]['humor_type'] = "hop@"#annotation_eb.humor_type
+        a_ebs[annotation_eb.annotation_id]['tweet_id'] = tweet.tweet_id
+        a_ebs[annotation_eb.annotation_id]['tweet_text'] = tweet.tweet_text
+        a_ebs[annotation_eb.annotation_id]['humor_type'] = annotation_eb.humor_type
         a_ebs[annotation_eb.annotation_id]['distance'] = annotation_eb.distance
         a_ebs[annotation_eb.annotation_id]['source'] = annotation_eb.source
         a_ebs[annotation_eb.annotation_id]['content_type'] = annotation_eb.content_type
         a_ebs[annotation_eb.annotation_id]['fear'] = annotation_eb.fear
+        a_ebs[annotation_eb.annotation_id]['is_filled'] = annotation_eb.is_filled
 
     # get vluchtelingen annotations
-#     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
-    a_vl = {}
-#     for annotation_vl in annotations_vl:
-#         tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id).first()
-#         a_vl.tweet_text = tweet.tweet_text
-#         a_vl.humor_type = annotation_vl.humor_type
-#         a_vl.distance = annotation_vl.distance
-#         a_vl.source = annotation_vl.source
-#         a_vl.content_type = annotation_vl.content_type
-#         a_vl.fear = annotation_vl.fear
+    annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
+    a_vls = {}
+    for annotation_vl in annotations_vl:
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id).first()
+        a_vls[annotation_vl.annotation_id] = {}
+        a_vls[annotation_vl.annotation_id]['tweet_id'] = tweet.tweet_id
+        a_vls[annotation_vl.annotation_id]['tweet_text'] = tweet.tweet_text
+        a_vls[annotation_vl.annotation_id]['humor_type'] = annotation_vl.humor_type
+        a_vls[annotation_vl.annotation_id]['distance'] = annotation_vl.distance
+        a_vls[annotation_vl.annotation_id]['source'] = annotation_vl.source
+        a_vls[annotation_vl.annotation_id]['content_type'] = annotation_vl.content_type
+        a_vls[annotation_vl.annotation_id]['attitude'] = annotation_vl.attitude
+        a_vls[annotation_vl.annotation_id]['is_filled'] = annotation_vl.is_filled
 
     context = {
-        'annotations_eb': a_ebs,
-        'annotations_vl': a_vl,
-        'hoi': "hola",
+        'hola1': a_ebs,
+        'hola2': a_vls,
     }
 
     return render(request, 'annotate/annotations.html', context)
 
+def change_annotation_vl(request, student_id, annotation_id):
+    student = get_object_or_404(Student, student_id=student_id)
+    annotation = get_object_or_404(Annotation_vl, annotation_id=annotation_id)
+    a = {}
+    a['annotation_id'] = annotation.annotation_id
+    a['tweet_id']      = annotation.tweet_id
+    a['humor_type']    = annotation.humor_type
+    a['distance']      = annotation.distance
+    a['attitude']      = annotation.attitude
+    a['source']        = annotation.source
+    a['content_type']  = annotation.content_type
+    a['is_filled']     = annotation.is_filled
+
+    tweet = Tweet.objects.filter(tweet_id=annotation.tweet_id).first()
+    t = {}
+    t['user_id']       = tweet.user_id
+    t['tweet_id']      = tweet.tweet_id
+    t['date']          = tweet.date
+    t['time']          = tweet.time
+    t['reply_to_user'] = tweet.reply_to_user
+    t['reply_to_user_url'] = tweet.reply_to_user_url
+    t['retweet_to_user'] = tweet.retweet_to_user
+    t['retweet_to_user_url'] = tweet.retweet_to_user_url
+    t['user_name']     = tweet.user_name
+    t['user_followers']= tweet.user_followers
+    t['user_location'] = tweet.user_location
+    t['tweet_location']= tweet.tweet_location
+    t['hashtags']      = tweet.hashtags
+    t['tweet_url']     = tweet.tweet_url
+    t['tweet_text']    = tweet.tweet_text
+
+
+
+    context = { 'student': student,
+                'annotation': a,
+                'type': 'vl',
+                'humor_types': HUMORTYPES,
+                'distance_eb': DISTANCEEB,
+                'distance_vl': DISTANCEVL,
+                'source': SOURCE,
+                'content_type': CONTENTTYPE,
+                'fear': FEAR,
+                'attitude': ATTITUDE,   
+                'tweet': t, }
+
+    return render(request, 'annotate/annotation.html', context)
 
 def change_annotation_eb(request, student_id, annotation_id):
     student = get_object_or_404(Student, student_id=student_id)
     annotation = get_object_or_404(Annotation_eb, annotation_id=annotation_id)
+    a = {}
+    a['annotation_id'] = annotation.annotation_id
+    a['tweet_id']      = annotation.tweet_id
+    a['humor_type']    = annotation.humor_type
+    a['distance']      = annotation.distance
+    a['fear']          = annotation.fear
+    a['source']        = annotation.source
+    a['content_type']  = annotation.content_type
+    a['is_filled']     = annotation.is_filled
+
+    tweet = Tweet.objects.filter(tweet_id=annotation.tweet_id).first()
+    t = {}
+    t['user_id']       = tweet.user_id
+    t['tweet_id']      = tweet.tweet_id
+    t['date']          = tweet.date
+    t['time']          = tweet.time
+    t['reply_to_user'] = tweet.reply_to_user
+    t['reply_to_user_url'] = tweet.reply_to_user_url
+    t['retweet_to_user'] = tweet.retweet_to_user
+    t['retweet_to_user_url'] = tweet.retweet_to_user_url
+    t['user_name']     = tweet.user_name
+    t['user_followers']= tweet.user_followers
+    t['user_location'] = tweet.user_location
+    t['tweet_location']= tweet.tweet_location
+    t['hashtags']      = tweet.hashtags
+    t['tweet_url']     = tweet.tweet_url
+    t['tweet_text']    = tweet.tweet_text
 
 
+
+    context = { 'student': student,
+                'annotation': a,
+                'type': 'eb',
+                'humor_types': HUMORTYPES,
+                'distance_eb': DISTANCEEB,
+                'distance_vl': DISTANCEVL,
+                'source': SOURCE,
+                'content_type': CONTENTTYPE,
+                'fear': FEAR,
+                'attitude': ATTITUDE,   
+                'tweet': t, }
+
+    return render(request, 'annotate/annotation.html', context)
 
 
 def detail(request, student_id):
