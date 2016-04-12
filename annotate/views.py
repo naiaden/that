@@ -35,17 +35,16 @@ def annotations(request, student_id):
 
     # get ebola annotations
     annotations_eb = Annotation_eb.objects.all().filter(student_id=student_id)
-    a_ebs = []
+    a_ebs = {}
     for annotation_eb in annotations_eb:
         tweet = Tweet.objects.all().filter(tweet_id=annotation_eb.tweet_id).first()
-        a_eb= {}
-        a_eb['tweet_text'] = tweet.tweet_text
-        a_eb['humor_type'] = annotation_eb.humor_type
-        a_eb['distance'] = annotation_eb.distance
-        a_eb['source'] = annotation_eb.source
-        a_eb['content_type'] = annotation_eb.content_type
-        a_eb['fear'] = annotation_eb.fear
-        a_ebs.append(a_eb) 
+        a_ebs[annotation_eb.annotation_id] = {}
+        a_ebs[annotation_eb.annotation_id]['tweet_text'] = "hoi@"#tweet.tweet_text
+        a_ebs[annotation_eb.annotation_id]['humor_type'] = "hop@"#annotation_eb.humor_type
+        a_ebs[annotation_eb.annotation_id]['distance'] = annotation_eb.distance
+        a_ebs[annotation_eb.annotation_id]['source'] = annotation_eb.source
+        a_ebs[annotation_eb.annotation_id]['content_type'] = annotation_eb.content_type
+        a_ebs[annotation_eb.annotation_id]['fear'] = annotation_eb.fear
 
     # get vluchtelingen annotations
     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
