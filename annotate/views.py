@@ -35,12 +35,31 @@ def annotations(request, student_id):
 
     # get ebola annotations
     annotations_eb = Annotation_eb.objects.all().filter(student_id=student_id)
+    a_eb = {}
+    for annotation_eb in annotations_eb:
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_eb.tweet_id)
+        a_eb.tweet_text = tweet.tweet_text
+        a_eb.humor_type = annotation_eb.humor_type
+        a_eb.distance = annotation_eb.distance
+        a_eb.source = annotation_eb.source
+        a_eb.content_type = annotation_eb.content_type
+        a_eb.fear = annotation_eb.fear
+
     # get vluchtelingen annotations
     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
+    a_vl = {}
+    for annotation_vl in annotations_vl:
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id)
+        a_vl.tweet_text = tweet.tweet_text
+        a_vl.humor_type = annotation_vl.humor_type
+        a_vl.distance = annotation_vl.distance
+        a_vl.source = annotation_vl.source
+        a_vl.content_type = annotation_vl.content_type
+        a_vl.fear = annotation_vl.fear
 
     context = {
-        'annotations_eb': annotations_eb,
-        'annotations_vl': annotations_vl,
+        'annotations_eb': a_eb,
+        'annotations_vl': a_vl,
     }
 
     return render(request, 'annotate/annotations.html', context)

@@ -13,13 +13,14 @@
                                          {{ annotation_eb.distance }} -
                                          {{ annotation_eb.source }} -
                                          {{ annotation_eb.content_type }} -
-                                         {{ annotation_eb.fear }}
+                                         {{ annotation_eb.fear }} :
+                                         {{ annotation_eb.tweet_text }}
     <br>
 
 {%  endfor %}
 
 <h2>Tweets over vluchtelingen</h2>
-{%  for annotation_eb in annotations_vl %}
+{%  for annotation_vl in annotations_vl %}
 
     {{ annotation_vl.annotation_id }} :: {{ annotation_vl.tweet_id }} -
                                          {{ annotation_vl.humor_type }} -
