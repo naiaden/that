@@ -35,8 +35,15 @@ def annotations(request, student_id):
 
     # get ebola annotations
     annotations_eb = Annotation_eb.objects.all().filter(student_id=student_id)
+    for annotation_eb in annotations_eb:
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_eb.tweet_id)
+        annotation_eb.tweet_text = tweet.tweet_text
+
     # get vluchtelingen annotations
     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
+    for annotation_vl in annotations_vl:
+        tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id)
+        annotation_vl.tweet_text = tweet.tweet_text
 
     context = {
         'annotations_eb': annotations_eb,
