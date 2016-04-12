@@ -27,7 +27,7 @@ def index(request):
                 'nr_tweets': nr_tweets,
                 'nr_tweets_vl': nr_tweets_vl,
                 'nr_tweets_eb': nr_tweets_eb,
-                'student_info': student_info }
+                'student_info': student_info } 
     return render(request, 'annotate/index.html', context)
 
 def annotations(request, student_id):
