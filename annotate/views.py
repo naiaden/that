@@ -47,20 +47,21 @@ def annotations(request, student_id):
         a_ebs[annotation_eb.annotation_id]['fear'] = annotation_eb.fear
 
     # get vluchtelingen annotations
-    annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
+#     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
     a_vl = {}
-    for annotation_vl in annotations_vl:
-        tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id).first()
-        a_vl.tweet_text = tweet.tweet_text
-        a_vl.humor_type = annotation_vl.humor_type
-        a_vl.distance = annotation_vl.distance
-        a_vl.source = annotation_vl.source
-        a_vl.content_type = annotation_vl.content_type
-        a_vl.fear = annotation_vl.fear
+#     for annotation_vl in annotations_vl:
+#         tweet = Tweet.objects.all().filter(tweet_id=annotation_vl.tweet_id).first()
+#         a_vl.tweet_text = tweet.tweet_text
+#         a_vl.humor_type = annotation_vl.humor_type
+#         a_vl.distance = annotation_vl.distance
+#         a_vl.source = annotation_vl.source
+#         a_vl.content_type = annotation_vl.content_type
+#         a_vl.fear = annotation_vl.fear
 
     context = {
         'annotations_eb': a_ebs,
         'annotations_vl': a_vl,
+        'hoi': "hola",
     }
 
     return render(request, 'annotate/annotations.html', context)
