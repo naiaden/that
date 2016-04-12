@@ -30,6 +30,29 @@ def index(request):
                 'student_info': student_info }
     return render(request, 'annotate/index.html', context)
 
+def annotations(request, student_id):
+    student = get_object_or_404(Student, student_id=student_id)
+
+    # get ebola annotations
+    annotations_eb = Annotation_eb.objects.all().filter(student_id=student_id)
+    # get vluchtelingen annotations
+    annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
+
+    context = {
+        'annotations_eb': annotations_eb,
+        'annotations_vl': annotations_vl,
+    }
+
+    return render(request, 'annotate/annotations.html', context)
+
+
+def change_annotation_eb(request, student_id, annotation_id):
+    student = get_object_or_404(Student, student_id=student_id)
+    annotation = get_object_or_404(Annotation_eb, annotation_id=annotation_id)
+
+
+
+
 def detail(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
     
@@ -39,8 +62,6 @@ def detail(request, student_id):
     
     twannotations = {}
 
-    print("hoi")
-    
     a_type = ''
     if remaining:      
         #annotations = Annotation_vl.objects.filter(student_id=student_id).filter(is_filled=False).first()

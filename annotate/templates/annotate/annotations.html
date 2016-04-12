@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Annotations</title>
+</head>
+<body>
+<h2>Tweets over ebola</h2>
+{%  for annotation_eb in annotations_eb %}
+
+    {{ annotation_eb.annotation_id }} :: {{ annotation_eb.tweet_id }} -
+                                         {{ annotation_eb.humor_type }} -
+                                         {{ annotation_eb.distance }} -
+                                         {{ annotation_eb.source }} -
+                                         {{ annotation_eb.content_type }} -
+                                         {{ annotation_eb.fear }}
+    <br>
+
+{%  endfor %}
+
+<h2>Tweets over vluchtelingen</h2>
+{%  for annotation_eb in annotations_vl %}
+
+    {{ annotation_vl.annotation_id }} :: {{ annotation_vl.tweet_id }} -
+                                         {{ annotation_vl.humor_type }} -
+                                         {{ annotation_vl.distance }} -
+                                         {{ annotation_vl.source }} -
+                                         {{ annotation_vl.content_type }} -
+                                         {{ annotation_vl.attitude }}
+    <br>
+
+{%  endfor %}
+</body>
+</html>
