@@ -45,7 +45,7 @@ def annotations(request, student_id):
         a_eb['source'] = annotation_eb.source
         a_eb['content_type'] = annotation_eb.content_type
         a_eb['fear'] = annotation_eb.fear
-        a_ebs.append(a_eb)
+        a_ebs.append(a_eb) 
 
     # get vluchtelingen annotations
     annotations_vl = Annotation_vl.objects.all().filter(student_id=student_id)
