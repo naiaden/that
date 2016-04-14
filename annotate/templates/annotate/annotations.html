@@ -8,6 +8,10 @@
 <h1>Annotaties</h1>
 Klik op de annotation-id om de annotatie te wijzigen.<br>
 Als je geen categoriewaarden ziet, dan heb je die annotatie nog niet gedaan. Via het normale proces zul je deze vanzelf wel eens tegen komen. Je hoeft ze dus niet een voor een in te vullen hier.
+
+{% if message %}<h3>{{ message }}</h3>{% endif %}
+
+{% if show_ebola %}
 <h2>Tweets over ebola</h2> <br>
 {%  for annotation_id, annotation_fields in hola1.items %}
 {% if annotation_fields.is_filled %}
@@ -17,32 +21,38 @@ Als je geen categoriewaarden ziet, dan heb je die annotatie nog niet gedaan. Via
                            {{ annotation_fields.source }} -
                            {{ annotation_fields.content_type }} -
                            {{ annotation_fields.fear }}  <br>
-                           {{ annotation_fields.tweet_text }}
+                           {{ annotation_fields.tweet_text|urlize }}
 {% else %}
     {{ annotation_id }} :: {{ annotation_fields.tweet_id }} <br>
-                           {{ annotation_fields.tweet_text }}
+                           {{ annotation_fields.tweet_text|urlize }}
 {% endif %}
 
     <br><br>
 
 {%  endfor %}
+{% endif %}
 
+{% if show_vluchtelingen %}
 <h2>Tweets over vluchtelingen</h2>
 {%  for annotation_id, annotation_fields in hola2.items %}
 {% if annotation_fields.is_filled %}
-    <a href="e{{ annotation_id }}/">{{ annotation_id }}</a> :: {{ annotation_fields.tweet_id }} ::
+    <a href="v{{ annotation_id }}/">{{ annotation_id }}</a> :: {{ annotation_fields.tweet_id }} ::
                            {{ annotation_fields.humor_type }} -
                            {{ annotation_fields.distance }} -
                            {{ annotation_fields.source }} -
                            {{ annotation_fields.content_type }} -
                            {{ annotation_fields.attitude }}  <br>
-                           {{ annotation_fields.tweet_text }}
+                           {{ annotation_fields.tweet_text|urlize }}
 {% else %}
     {{ annotation_id }} :: {{ annotation_fields.tweet_id }} <br>
-                           {{ annotation_fields.tweet_text }}
+                           {{ annotation_fields.tweet_text|urlize }}
 {% endif %}
     <br><br>
 
 {%  endfor %}
+{% endif %}
 </body>
 </html>
+
+<a href="http://applejack.science.ru.nl/languagemachines" style="display: block"><img src="http://applejack.science.ru.nl/lamabadge.php/that" alt="badge" /></a>
+

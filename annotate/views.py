@@ -33,6 +33,45 @@ def index(request):
 def annotations(request, student_id):
     student = get_object_or_404(Student, student_id=student_id)
 
+    message = ''
+    if request.method == "POST":   
+        annotation_type = request.POST['type']
+        if annotation_type == 'vl':
+            try:
+                selected_annotation = Annotation_vl.objects.filter(annotation_id=request.POST['submit']).first()
+            except (KeyError, Annotation_vl.DoesNotExist):
+                return render(request, 'annotate/detail.html', {
+                    'student': student,
+                    'error_message': "You didn't select a valid annotation",
+                    })
+            else:
+                selected_annotation.humor_type = request.POST['humortype']
+                selected_annotation.distance = request.POST['distancevl']
+                selected_annotation.source = request.POST['source']
+                selected_annotation.content_type = request.POST['contenttype']
+                selected_annotation.attitude = request.POST['attitude']
+                selected_annotation.is_filled = True
+                message = "Vluchtelingen-annotatie " + str(selected_annotation.annotation_id) + " is geüpdatet"
+                selected_annotation.save()
+        else: # 'eb'
+            try:
+                selected_annotation = Annotation_eb.objects.filter(annotation_id=request.POST['submit']).first()
+            except (KeyError, Annotation_eb.DoesNotExist):
+                return render(request, 'annotate/detail.html', {
+                    'student': student,
+                    'error_message': "You didn't select a valid annotation",
+                    })
+            else:
+                selected_annotation.humor_type = request.POST['humortype']
+                selected_annotation.distance = request.POST['distanceeb']
+                selected_annotation.source = request.POST['source']
+                selected_annotation.content_type = request.POST['contenttype']
+                selected_annotation.fear = request.POST['fear']
+                selected_annotation.is_filled = True
+                message = "Ebola-annotatie " + str(selected_annotation.annotation_id) + " is geüpdatet"
+                selected_annotation.save()
+
+
     # get ebola annotations
     annotations_eb = Annotation_eb.objects.all().filter(student_id=student_id)
     a_ebs = {}
@@ -66,6 +105,9 @@ def annotations(request, student_id):
     context = {
         'hola1': a_ebs,
         'hola2': a_vls,
+        'show_ebola': True,
+        'show_vluchtelingen': True,
+        'message': message,
     }
 
     return render(request, 'annotate/annotations.html', context)
@@ -120,6 +162,8 @@ def change_annotation_vl(request, student_id, annotation_id):
 def change_annotation_eb(request, student_id, annotation_id):
     student = get_object_or_404(Student, student_id=student_id)
     annotation = get_object_or_404(Annotation_eb, annotation_id=annotation_id)
+
+
     a = {}
     a['annotation_id'] = annotation.annotation_id
     a['tweet_id']      = annotation.tweet_id

@@ -22,7 +22,7 @@ In termen van tweets zijn dit er {{ nr_tweets }}, {{ nr_tweets_vl }} en {{ nr_tw
 
 {% for student, info in student_info.items %}
 
-	<a href="{{ student.student_id }}/">{{ student.student_id }}</a> :: {{ info }}
+	<a href="{{ student.student_id }}/">{{ student.student_id }}</a> :: {{ info }} :: <a href="{{ student.student_id }}/annotations">Overzicht annotaties</a>
 	<br>
 
 {% endfor %}

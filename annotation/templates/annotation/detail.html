@@ -2,13 +2,14 @@
 
 {% if remaining %}
 {{ student.student_id }} Je hebt nog {{ remaining }} tweet{% if remaining > 1 %}s{% endif %} te gaan: {{ remaining_vl }} over vluchtelingen, en {{ remaining_eb }} over ebola. <br>
-
+Terug naar de <a href="/that/annotate/">hoofdpagina</a>.
 <br><br>
 
 
 {% for key, annotation in twannotations.items %}
 	<h2>Tweet over {% if type == 'eb' %}ebola{% else %}vluchtelingen{% endif %}</h2>
-	{{ annotation.tweet.tweet_text }}<br>
+
+	{{ annotation.tweet.tweet_text|urlize }}<br>
 
 	<form action="{% url 'annotate:addannotation' student.student_id %}" method="post">
 		{% csrf_token %}
@@ -64,12 +65,8 @@
 
 <table border="1">
 	  <tr>
-	    <td>user id</td>
-	    <td>{{ annotation.tweet.user_id }} </td>
-	 </tr>
-	 <tr>
-	    <td>tweet id</td>
-	    <td>{{ annotation.tweet.tweet_id }} </td>
+	    <td>user name</td>
+	    <td>{{ annotation.tweet.user_name }} </td>
 	 </tr>
 	 <tr>
 	    <td>date</td>
@@ -78,6 +75,14 @@
 	 <tr>
 	    <td>time</td>
 	    <td>{{ annotation.tweet.time }} </td>
+	 </tr>
+	  <tr>
+	    <td>user id</td>
+	    <td>{{ annotation.tweet.user_id }} </td>
+	 </tr>
+	 <tr>
+	    <td>tweet id</td>
+	    <td>{{ annotation.tweet.tweet_id }} </td>
 	 </tr>
 	 <tr>
 	    <td>reply to user id</td>
@@ -95,10 +100,6 @@
 	    <td>retweet to user url</td>
 	    <td><a href="{{ annotation.tweet.retweet_to_user_url }}">{{ annotation.tweet.retweet_to_user_url }}</a> </td>
 	  </tr>
-	  <tr>
-	    <td>user name</td>
-	    <td>{{ annotation.tweet.user_name }} </td>
-	 </tr>
 	 <tr>
 	    <td>user followers</td>
 	    <td>{{ annotation.tweet.user_followers }} </td>
